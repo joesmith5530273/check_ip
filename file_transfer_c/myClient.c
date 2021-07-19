@@ -1,3 +1,4 @@
+// client writes the file that expects to get from the server. ie.server has "file.txt" and client wants that. then that must be client input. "file.txt" client donot have that. 
 // client code for UDP socket programming
 #include <arpa/inet.h>
 #include <netinet/in.h>
