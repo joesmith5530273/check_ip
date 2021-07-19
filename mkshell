@@ -1,0 +1,44 @@
+#!/bin/bash
+
+shopt -s expand_aliases
+unalias print 2>/dev/null
+alias print='echo'
+
+(($# != 3 && $# == 0)) && echo "usage mkshell <-e editor> filename"&&exit 1
+
+if (( $# == 3 )); then
+   EDITOR=$2
+   filename=$3
+else
+   EDITOR=vi
+   filename=$1
+fi
+
+if [ -f "$filename" ]; then
+   print -n "$filename exists, over write (y/n)? "
+   read ans 
+   [ $ans = "n" -o $ans = "N" ] && exit 0
+fi
+
+
+> $filename
+
+d=$(date "+%m/%d/%y")
+pinky 2>/dev/null 1>&2 # to see if finger exists or not 
+if (( $? != 0 )); then
+   your_name=${MYNAME:-" put your name here"}
+else
+   your_name=$(pinky -l $(whoami) | head -1 | awk '{print $7,$8}')
+fi
+
+print "#!/bin/bash"                    >> $filename
+print "# "                             >> $filename
+print "# Author:  $your_name"          >> $filename
+print "# Date  :  $d "                 >> $filename
+print "# Program Name: $filename "     >> $filename
+print "# Objective: "                  >> $filename
+print " "                              >> $filename
+chmod +x $filename
+$EDITOR $filename
+
+echo "tsdfsdfsdfesting file"
